@@ -1,7 +1,7 @@
 import defaultConfiguration from 'ember-log4js/default-configuration';
 
 
-class EmberLog4javascriptLogger {
+export class EmberLog4javascriptLoggerFactory {
 
     constructor() {
         this._isInitialized=false;
@@ -71,6 +71,6 @@ class EmberLog4javascriptLogger {
     }
 }
 
-export var theEmberLog4javascriptLogger = new EmberLog4javascriptLogger();
+var theEmberLog4javascriptLoggerFactory = new EmberLog4javascriptLoggerFactory();
 
-export default theEmberLog4javascriptLogger;
+export default theEmberLog4javascriptLoggerFactory;
