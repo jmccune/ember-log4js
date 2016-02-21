@@ -1,5 +1,30 @@
-import defaultConfiguration from 'ember-log4js/default-configuration';
+import { defaultEmberLog4jsConfig } from 'ember-log4js/default-configuration';
 
+// Polyfill Object.assign (for PhantomJS)  (FROM MDN)
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
+if (typeof Object.assign !== 'function') {
+    (function() {
+        Object.assign = function(target) {
+            'use strict';
+            if (target === undefined || target === null) {
+                throw new TypeError('Cannot convert undefined or null to object');
+            }
+
+            var output = Object(target);
+            for (var index = 1; index < arguments.length; index++) {
+                var source = arguments[index];
+                if (source !== undefined && source !== null) {
+                    for (var nextKey in source) {
+                        if (source.hasOwnProperty(nextKey)) {
+                            output[nextKey] = source[nextKey];
+                        }
+                    }
+                }
+            }
+            return output;
+        };
+    })();
+}
 
 export class EmberLog4javascriptLoggerFactory {
 
@@ -8,7 +33,7 @@ export class EmberLog4javascriptLoggerFactory {
     }
 
     getDefaultConfiguration() {
-        var copyOfDefaultConfig = Object.assign({},defaultConfiguration);
+        var copyOfDefaultConfig = Object.assign({}, defaultEmberLog4jsConfig);
         return copyOfDefaultConfig;
     }
 

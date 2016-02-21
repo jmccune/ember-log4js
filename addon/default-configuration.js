@@ -1,5 +1,4 @@
-
-export var defaultEmberLog4javascriptConfiguration = {
+export var defaultEmberLog4jsConfig = {
     ROOT_LEVEL: 'INFO',
     loggingLevels: {
         // <loggerName> : <logLevel>
@@ -9,4 +8,4 @@ export var defaultEmberLog4javascriptConfiguration = {
     defaultLoggerName: 'ember-log4js.main'
 };
 
-export default defaultEmberLog4javascriptConfiguration;
+export default defaultEmberLog4jsConfig;
