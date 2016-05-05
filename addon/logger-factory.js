@@ -87,6 +87,25 @@ export class EmberLog4javascriptLoggerFactory {
         this._isInitialized = true;
     }
 
+    getRootLevel() {
+        return log4javascript.getRootLogger().getLevel().name;
+    }
+
+    setRootLevel(levelArg) {
+        console.log("OPTIONS: ");
+        console.dir(log4javascript.Level);
+
+        var level = log4javascript.Level[levelArg];
+        if (level === undefined) {
+            log4javascript.error('Unable to set level to: ' + levelArg);
+            throw 'Unable to set level to: ' + levelArg;
+        }
+        console.log("LEVEL: ");
+        console.dir(level);
+
+
+        log4javascript.getRootLogger().setLevel(level);
+    }
     getLogger(loggerName) {
         this.initialize();
         if (typeof loggerName!=='string') {

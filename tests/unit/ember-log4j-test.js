@@ -9,3 +9,13 @@ test('validate basic promises', function(assert) {
     assert.ok(true);
 });
 
+
+test('change of levels', function(assert) {
+
+    var result = LoggerFactory.getRootLevel();
+    assert.equal(result, 'DEBUG');
+    LoggerFactory.setRootLevel('WARN');
+    result = LoggerFactory.getRootLevel();
+    assert.equal(result, 'WARN');
+
+});
