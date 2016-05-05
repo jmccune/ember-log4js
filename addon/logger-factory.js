@@ -1,4 +1,5 @@
 import { defaultEmberLog4jsConfig } from 'ember-log4js/default-configuration';
+import { CircleBufferAppender } from 'ember-log4js/circlebuffer-appender';
 
 // Polyfill Object.assign (for PhantomJS)  (FROM MDN)
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign
@@ -30,6 +31,7 @@ export class EmberLog4javascriptLoggerFactory {
 
     constructor() {
         this._isInitialized=false;
+        this.circleBufferAppender = new CircleBufferAppender();
     }
 
     getDefaultConfiguration() {
@@ -37,6 +39,14 @@ export class EmberLog4javascriptLoggerFactory {
         return copyOfDefaultConfig;
     }
 
+
+    getCircleBuffer() {
+        return this.circleBufferAppender.getCircleBuffer();
+    }
+
+    resetCircleBufferToSize(size) {
+        this.circleBufferAppender.setBufferSize(size);
+    }
 
     isInitialized() {
         return this._isInitialized;
@@ -72,6 +82,7 @@ export class EmberLog4javascriptLoggerFactory {
         var consoleAppender = new log4javascript.BrowserConsoleAppender();
         consoleAppender.setLayout(loggerLayout);
         rootLogger.addAppender(consoleAppender);
+        rootLogger.addAppender(this.circleBufferAppender);
 
         var rootLoggerLevel = log4javascript.Level[ROOT_LEVEL];
         rootLogger.setLevel(rootLoggerLevel);
@@ -92,17 +103,12 @@ export class EmberLog4javascriptLoggerFactory {
     }
 
     setRootLevel(levelArg) {
-        console.log("OPTIONS: ");
-        console.dir(log4javascript.Level);
 
         var level = log4javascript.Level[levelArg];
         if (level === undefined) {
             log4javascript.error('Unable to set level to: ' + levelArg);
             throw 'Unable to set level to: ' + levelArg;
         }
-        console.log("LEVEL: ");
-        console.dir(level);
-
 
         log4javascript.getRootLogger().setLevel(level);
     }
